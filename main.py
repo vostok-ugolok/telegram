@@ -6,7 +6,7 @@ import json
 import socketio
 import socketio.exceptions
 
-host = "localhost:5000"
+host = "185.246.64.64:4999"
 bot = TeleBot(token=os.environ["VOSTOK_UGOLOK_TOKEN"])
 bot.parse_mode = 'html'
 order_to_user = Associations()
