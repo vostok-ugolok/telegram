@@ -66,7 +66,7 @@ def orders(message):
 @admin_bot.message_handler(commands=['ready'])
 def ready(message):
     admin_bot.register_next_step_handler(message, got_id)
-    admin_bot.reply_to(message, '🎈  Введите идентификатор заказа')
+    admin_bot.reply_to(message, '💡  Введите идентификатор заказа')
 
 def got_id(message):
     order_id = int(message.text.replace('#', ''))
@@ -77,17 +77,17 @@ def got_id(message):
 @admin_bot.message_handler(commands=['notify'])
 def notify(message):
     admin_bot.register_next_step_handler(message, got_id_before_message)
-    admin_bot.reply_to(message, '🎈  Введите идентификатор заказа')
+    admin_bot.reply_to(message, '💡  Введите идентификатор заказа')
 
 def got_id_before_message(message):
     order_id = int(message.text.replace('#', ''))
 
-    admin_bot.reply_to(message, '🎈  Введите сообщение')
+    admin_bot.reply_to(message, '📩  Введите сообщение')
 
     admin_bot.register_next_step_handler(message, got_message, order_id)
 
 def got_message(message, order_id):
-    print(requests.post('http://' + host + f'/order/state/update?id={order_id}', json={"new_state" : f"STATE CHANGED AT {datetime.now().strftime('%d.%m.%Y %H:%M')}", 'order_id': order_id, 'message': message.text}).text)
+    print(requests.post('http://' + host + f'/order/state/update?id={order_id}', json={"new_state" : f"STATE CHANGED AT {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}", 'order_id': order_id, 'message': message.text}).text)
 
     admin_bot.reply_to(message, '✅  Информация отправлена')
 
@@ -102,8 +102,8 @@ def food_to_string(food):
     Цена: <b>{price} ₽</b>
     Описание: {description}"""
 
-@admin_bot.message_handler(commands=['food'])
-def food(message):
+@admin_bot.message_handler(commands=['menu'])
+def menu(message):
     result = requests.get('http://' + host + '/food/get').json()
 
     response = '🎁  Меню'

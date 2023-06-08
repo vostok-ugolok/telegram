@@ -70,7 +70,7 @@ def on_order_ready(id_state: list):
     
     elif order_addinfo != None:
         for uid in order_to_user.data[order_id]:
-            client_bot.send_message(uid, f'⚠ Новая информация по Вашему заказу\n \nНомер заказа: <b>{order_id}</b>\n\n{order_addinfo}')
+            client_bot.send_message(uid, f'⚠ Новая информация о заказе <b>#{order_id}</b>\n\n{order_addinfo}')
 
 @sio.on('connection')
 def connected():
