@@ -18,5 +18,9 @@ class Associations:
         with open(self.path, 'r') as f:
             self.data = dict(json.load(f))
 
-    def assoc(self, order: dict, id: str):
-        self.data[order["order_id"]] = id
+    def assoc_add(self, order: dict, id: str):
+        if self.data.get(order['order_id']) != None:
+            self.data[order["order_id"]].append(id)
+            self.data[order['order_id']] = list(set(self.data[order['order_id']]))
+        else:
+            self.data[order["order_id"]] = [id]

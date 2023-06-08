@@ -36,7 +36,7 @@ def start(message):
         creation_time = order['creation_time']
 
         if adress in ('', 'cass', 'inside'):
-            order_to_user.assoc(order, message.from_user.id)
+            order_to_user.assoc_add(order, message.from_user.id)
             order_to_user.save()
 
             client_bot.send_message(message.from_user.id, f"""<b>Добрый день!</b>
@@ -65,10 +65,12 @@ def on_order_ready(id_state: list):
         order_addinfo = id_state[2]
 
     if order_state == 'READY':
-        client_bot.send_message(order_to_user.data[order_id], f'🕒 Ваш заказ готов!\n \nНомер заказа: <b>{order_id}</b>')
+        for uid in order_to_user.data[order_id]:
+            client_bot.send_message(uid, f'🕒 Ваш заказ готов!\n \nНомер заказа: <b>{order_id}</b>')
     
     elif order_addinfo != None:
-        client_bot.send_message(order_to_user.data[order_id], f'⚠ Новая информация по Вашему заказу\n \nНомер заказа: <b>{order_id}</b>\n\n{order_addinfo}')
+        for uid in order_to_user.data[order_id]:
+            client_bot.send_message(uid, f'⚠ Новая информация по Вашему заказу\n \nНомер заказа: <b>{order_id}</b>\n\n{order_addinfo}')
 
 @sio.on('connection')
 def connected():

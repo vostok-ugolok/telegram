@@ -5,6 +5,7 @@ import requests
 host = "185.246.64.64:4999"
 
 admin_bot = TeleBot(token=os.environ["VOKSTOK_UGOLOK_TOKEN_ADMIN"])
+admin_bot.parse_mode = 'html'
 
 def order_to_string(order):
     return f"""🛒  Номер #{order['order_id']}:
@@ -89,6 +90,28 @@ def got_message(message, order_id):
     print(requests.post('http://' + host + f'/order/state/update?id={order_id}', json={"new_state" : f"STATE CHANGED AT {datetime.now().strftime('%d.%m.%Y %H:%M')}", 'order_id': order_id, 'message': message.text}).text)
 
     admin_bot.reply_to(message, '✅  Информация отправлена')
+
+def food_to_string(food):
+    name = food['name']
+    price = food['price']
+    image = food['image']
+    description = food['description']
+    identifier = food['identifier']
+
+    return f"""•  {name}  ( <b>{identifier}</b> )
+    Цена: <b>{price} ₽</b>
+    Описание: {description}"""
+
+@admin_bot.message_handler(commands=['food'])
+def food(message):
+    result = requests.get('http://' + host + '/food/get').json()
+
+    response = '🎁  Меню'
+
+    for food in result:
+        response += '\n\n' + food_to_string(food)
+
+    admin_bot.send_message(message.from_user.id, response)
 
 print('⚡  Бот-админ запустился')
 admin_bot.infinity_polling()
