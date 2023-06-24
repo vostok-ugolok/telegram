@@ -7,7 +7,7 @@ import json
 import socketio
 import socketio.exceptions
 
-host = "185.246.64.64:4999"
+host = "212.109.193.12:5000"
 client_bot = TeleBot(token=os.environ["VOSTOK_UGOLOK_TOKEN"])
 client_bot.parse_mode = 'html'
 

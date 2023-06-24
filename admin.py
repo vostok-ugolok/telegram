@@ -2,7 +2,7 @@ from threading import Thread
 from telebot import *
 import os
 import requests
-host = "185.246.64.64:4999"
+host = "212.109.193.12:5000"
 
 admin_bot = TeleBot(token=os.environ["VOKSTOK_UGOLOK_TOKEN_ADMIN"])
 admin_bot.parse_mode = 'html'
