@@ -4,7 +4,7 @@ import os
 import requests
 host = "212.109.193.12:5000"
 
-admin_bot = TeleBot(token=os.environ["VOKSTOK_UGOLOK_TOKEN_ADMIN"])
+admin_bot = TeleBot(token=os.environ["VOSTOK_UGOLOK_TOKEN_ADMIN"])
 admin_bot.parse_mode = 'html'
 
 def order_to_string(order):
